@@ -1,43 +1,29 @@
 ﻿namespace TrackingTool.Wpf.Domain
 {
+    using AutoMapper;
     using Microsoft.Win32;
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.ComponentModel;
+    using System.Linq;
     using System.Runtime.CompilerServices;
     using System.Windows;
+    using TrackingTool.Data;
+    using TrackingTool.Data.Repositories;
+    using TrackingTool.Models;
     using TrackingTool.Models.ViewModels;
     using TrackingTool.Services;
 
     public class ProcessesViewModel : INotifyPropertyChanged
     {
         /// <summary>
-        public Dictionary<string, ProcessViewModel> data = new Dictionary<string, ProcessViewModel>();
-        public ProcessViewModel CurrentProcess { get; set; }
-        private int counter;
+        public MyProcess CurrentProcess { get; set; }
         private ActiveWindow activeWindow = new ActiveWindow();
         /// <summary>
 
         private readonly ObservableCollection<ProcessViewModel> _items;
         private readonly ProcessesServices processesServices;
-
-        public ProcessesViewModel()
-        {
-            this.processesServices = new ProcessesServices();
-            counter = 0;
-            _items = new ObservableCollection<ProcessViewModel>();
-            AttachEvents();
-        }
-
-        private void OnPowerModeChanged(object sender, PowerModeChangedEventArgs e)
-        {
-            if (e.Mode == PowerModes.Suspend)
-            {
-                UpdateCurrentProcess();
-            }
-        }
-
         public ObservableCollection<ProcessViewModel> Items => _items;
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -47,13 +33,48 @@
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        public ProcessesViewModel()
+        {
+            Mapper.Initialize(cfg => { cfg.CreateMap<MyProcess, ProcessViewModel>(); });
+            this.processesServices = new ProcessesServices(new GenericRepository<MyProcess>(new TrackingToolContext()));
+            _items = GetData();
+            AttachEvents();
+        }
+
+        private ObservableCollection<ProcessViewModel> GetData()
+        {
+            List<MyProcess> list = this.processesServices.GetAll().ToList();
+            List<ProcessViewModel> processes = Mapper.Map<List<MyProcess>, List<ProcessViewModel>>(list);
+            return new ObservableCollection<ProcessViewModel>(processes);
+        }
+
         private void AttachEvents()
         {
+            Application.Current.MainWindow.Closing += new CancelEventHandler(MainWindow_Closing);
+
             activeWindow.OnActiveWindowChanged += new ActiveWindow.ActiveWindowChangedHandler(AppChangeHandler);
             activeWindow.OnWindowRestored += new ActiveWindow.ActiveWindowChangedHandler(AppChangeHandler);
             activeWindow.OnWindowMinimized += new ActiveWindow.ActiveWindowChangedHandler(AppChangeHandler);
             activeWindow.Start();
-            SystemEvents.PowerModeChanged += new PowerModeChangedEventHandler(OnPowerModeChanged);
+            SystemEvents.PowerModeChanged += new PowerModeChangedEventHandler(PowerModeChangeHandler);
+        }
+
+        private void MainWindow_Closing(object sender, CancelEventArgs e)
+        {
+            activeWindow = null;
+
+            if (this.CurrentProcess != null)
+            {
+                this.UpdateMinutes();
+            }
+        }
+
+        private void PowerModeChangeHandler(object sender, PowerModeChangedEventArgs e)
+        {
+            if (e.Mode == PowerModes.Suspend)
+            {
+                UpdateCurrentProcess();
+            }
         }
 
         private void AppChangeHandler(object sender, string windowHeader, IntPtr hwnd)
@@ -76,39 +97,43 @@
 
         private void DefineApplication(string name)
         {
-            //if (this.processesServices.HasProcess(name))
-            //{
-            //    Console.WriteLine("asd");
-            //}
-            if (!this.data.ContainsKey(name))
+
+            if (!this.processesServices.HasProcess(name))
             {
-                ProcessViewModel process = new ProcessViewModel
+                MyProcess process = new MyProcess
                 {
-                    Id = counter++,
                     Name = name,
                     StartDate = DateTime.Now,
                     Minutes = 0
                 };
-                //ProcessesServices.CreateEntry(process);
-                data.Add(name, process);
+                this.processesServices.CreateEntry(process);
                 this.CurrentProcess = process;
-                Items.Add(this.CurrentProcess);
+                ProcessViewModel processViewModel = MapFrom(this.CurrentProcess);
+
+                Items.Add(processViewModel);
             }
             else
             {
-                //this.CurrentProcess = ProcessesServices.GetByName(name);
-                this.CurrentProcess = data[name];
-                Application.Current.Dispatcher.Invoke((Action)(() => this.Items.Remove(this.CurrentProcess)));
-                this.CurrentProcess.StartDate = DateTime.Now;
-                Application.Current.Dispatcher.Invoke((Action)(() => this.Items.Add(this.CurrentProcess)));
+                this.CurrentProcess = this.processesServices.GetByName(name);
+                ProcessViewModel processViewModel = this.Items.FirstOrDefault(i => i.Id == this.CurrentProcess.Id);
+                Application.Current.Dispatcher.Invoke((Action)(() => this.Items.Remove(processViewModel)));
+
+                this.CurrentProcess = this.processesServices.UpdateStartDate(this.CurrentProcess, DateTime.Now);
+                processViewModel = MapFrom(this.CurrentProcess);
+
+                Application.Current.Dispatcher.Invoke((Action)(() => this.Items.Add(processViewModel)));
             }
+        }
+
+        private ProcessViewModel MapFrom(MyProcess process)
+        {
+            return Mapper.Map<MyProcess, ProcessViewModel>(process);
         }
 
         private void UpdateMinutes()
         {
             TimeSpan minutes = (DateTime.Now - this.CurrentProcess.StartDate);
-            //ProcessesServices.UpdateEntry(CurrentProcess, minutes.TotalMinutes);
-            this.CurrentProcess.Minutes += minutes.TotalMinutes;
+            this.processesServices.UpdateMinutes(this.CurrentProcess, minutes.TotalMinutes);
             this.CurrentProcess = null;
         }
     }

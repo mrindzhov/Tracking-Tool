@@ -54,7 +54,7 @@
                     IconSource="Resources/Clock1.ico"
                     MenuActivation="LeftOrRightClick"
                     PopupActivation="DoubleClick"
-                        TrayMouseDoubleClick="myNotifyIcon_TrayMouseDoubleClick"
+                        TrayMouseDoubleClick="MyNotifyIcon_TrayMouseDoubleClick"
                         >
             <!--<tb:TaskbarIcon.TrayToolTip>
                 <Border Background="White" BorderBrush="Orange" BorderThickness="2"

@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{DADFE0F6-9AAF-4743-B3CC-66FF16861D70}</ProjectGuid>
+    <ProjectGuid>{127B0BC8-6FCB-4B44-87F7-26667A0CB8D0}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TrackingTool.Services</RootNamespace>
-    <AssemblyName>TrackingTool.Services</AssemblyName>
+    <RootNamespace>TrackingTool.Data</RootNamespace>
+    <AssemblyName>TrackingTool.Data</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -39,6 +39,8 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -47,23 +49,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Contracts\IProcessesServices.cs" />
-    <Compile Include="ProcessesServices.cs" />
+    <Compile Include="Initializer.cs" />
+    <Compile Include="ITrackingToolContexnt.cs" />
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\TrackingTool.Data\TrackingTool.Data.csproj">
-      <Project>{127B0BC8-6FCB-4B44-87F7-26667A0CB8D0}</Project>
-      <Name>TrackingTool.Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\TrackingTool.Models\TrackingTool.Models.csproj">
-      <Project>{D1EDE360-47B3-4BA1-8069-C682CBB4BFB5}</Project>
-      <Name>TrackingTool.Models</Name>
-    </ProjectReference>
+    <Compile Include="Repository\GenericRepository.cs" />
+    <Compile Include="Repository\IRepository.cs" />
+    <Compile Include="TrackingToolContext.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TrackingTool.Models\TrackingTool.Models.csproj">
+      <Project>{D1EDE360-47B3-4BA1-8069-C682CBB4BFB5}</Project>
+      <Name>TrackingTool.Models</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

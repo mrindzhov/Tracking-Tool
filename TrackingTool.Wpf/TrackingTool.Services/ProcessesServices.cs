@@ -4,134 +4,78 @@
     using System.Linq;
     using TrackingTool.Services.Contracts;
     using TrackingTool.Models;
+    using TrackingTool.Data.Repositories;
 
     public class ProcessesServices : IProcessesServices
     {
-        //public void CreateEntry(MyProcess process)
-        //{
-        //    using (var ctx = new TrackingToolContext())
-        //    {
-        //        ctx.Processes.Add(process);
-        //        ctx.SaveChanges();
-        //    }
-        //}
-
-        //public bool HasProcess(string name)
-        //{
-        //    using (var ctx = new TrackingToolContext())
-        //    {
-        //        return ctx.Processes.Any(p => p.Name == name);
-        //    }
-        //}
-
-        //public MyProcess GetByName(string name)
-        //{
-        //    using (var ctx = new TrackingToolContext())
-        //    {
-        //        return ctx.Processes.FirstOrDefault(p => p.Name == name);
-        //    }
-        //}
-
-        //public IQueryable<MyProcess> GetAll()
-        //{
-        //    using (var ctx = new TrackingToolContext())
-        //    {
-        //        return ctx.Processes.ToList().AsQueryable();
-        //    }
-        //}
-
-        //public IQueryable<MyProcess> GetTop(int count)
-        //{
-        //    using (var ctx = new TrackingToolContext())
-        //    {
-        //        return ctx.Processes.OrderBy(p => p.Minutes).Take(count);
-        //    }
-        //}
-
-        //public MyProcess GetById(int id)
-        //{
-        //    using (var ctx = new TrackingToolContext())
-        //    {
-        //        return ctx.Processes.FirstOrDefault(p => p.Id == id);
-        //    }
-        //}
-
-        //public void DeleteEntry(MyProcess process)
-        //{
-        //    using (var ctx = new TrackingToolContext())
-        //    {
-        //        ctx.Processes.Remove(process);
-        //        ctx.SaveChanges();
-        //    }
-        //}
-
-        //public void UpdateMinutes(MyProcess process, double minutes)
-        //{
-        //    using (var ctx = new TrackingToolContext())
-        //    {
-        //        MyProcess pr = ctx.Processes.FirstOrDefault(p => p.Id == process.Id);
-        //        pr.Minutes += minutes;
-        //        ctx.SaveChanges();
-        //    }
-        //}
-
-        //public void Create(string name)
-        //{
-        //    using (var ctx = new TrackingToolContext())
-        //    {
-        //        MyProcess process = new MyProcess
-        //        {
-        //            Name = name,
-        //            Minutes = 0,
-        //            StartDate = DateTime.Now
-        //        };
-        //        ctx.Processes.Add(process);
-        //        ctx.SaveChanges();
-        //    }
-        //}
-        public void Create(string name)
+        private IRepository<MyProcess> Processes;
+        public ProcessesServices(IRepository<MyProcess> repository)
         {
-            throw new NotImplementedException();
+            this.Processes = repository;
         }
 
         public void CreateEntry(MyProcess process)
         {
-            throw new NotImplementedException();
-        }
-
-        public void DeleteEntry(MyProcess process)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IQueryable<MyProcess> GetAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        public MyProcess GetById(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public MyProcess GetByName(string name)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IQueryable<MyProcess> GetTop(int count)
-        {
-            throw new NotImplementedException();
+            this.Processes.Add(process);
+            this.Processes.SaveChanges();
         }
 
         public bool HasProcess(string name)
         {
-            throw new NotImplementedException();
+            return this.Processes.All().Any(p => p.Name == name);
+        }
+
+        public MyProcess GetByName(string name)
+        {
+            return this.Processes.All().FirstOrDefault(p => p.Name == name);
+        }
+
+        public IQueryable<MyProcess> GetAll()
+        {
+            return this.Processes.All().ToList().AsQueryable();
+        }
+
+        public IQueryable<MyProcess> GetTop(int count)
+        {
+            return this.Processes.All().OrderBy(p => p.Minutes).Take(count);
+        }
+
+        public MyProcess GetById(int id)
+        {
+            return this.Processes.All().FirstOrDefault(p => p.Id == id);
+        }
+
+        public void DeleteEntry(MyProcess process)
+        {
+            this.Processes.Delete(process);
+            this.Processes.SaveChanges();
         }
 
         public void UpdateMinutes(MyProcess process, double minutes)
         {
-            throw new NotImplementedException();
+            MyProcess pr = this.Processes.All().FirstOrDefault(p => p.Id == process.Id);
+            pr.Minutes += minutes;
+            this.Processes.SaveChanges();
+        }
+
+        public void Create(string name)
+        {
+            MyProcess process = new MyProcess
+            {
+                Name = name,
+                Minutes = 0,
+                StartDate = DateTime.Now
+            };
+            this.Processes.Add(process);
+            this.Processes.SaveChanges();
+        }
+
+        public MyProcess UpdateStartDate(MyProcess process, DateTime date)
+        {
+            MyProcess pr = this.Processes.All().FirstOrDefault(p => p.Id == process.Id);
+            pr.StartDate = date;
+            this.Processes.SaveChanges();
+            return pr;
         }
     }
 }

@@ -9,6 +9,8 @@
     using System.Windows.Media;
     using TrackingTool.Wpf.Domain;
     using System.Windows.Controls.Primitives;
+    using TrackingTool.Data;
+    using System.ComponentModel;
 
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -19,7 +21,7 @@
 
         public MainWindow()
         {
-            //Initializer.InitDb();
+            Initializer.InitDb();
             InitializeComponent();
             OpenGreetingPopUp();
             DataContext = new MainWindowViewModel(MainSnackbar.MessageQueue);
@@ -92,10 +94,16 @@
                 this.DragMove();
         }
 
-        private void myNotifyIcon_TrayMouseDoubleClick(object sender, RoutedEventArgs e)
+        private void MyNotifyIcon_TrayMouseDoubleClick(object sender, RoutedEventArgs e)
         {
             this.Show();
             this.WindowState = WindowState.Normal;
+        }
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            this.Hide();
+            Thread.Sleep(500);
+            base.OnClosing(e);
         }
     }
 }

@@ -24,13 +24,13 @@
                     {
                         DocumentationLink.WikiLink("Brush-Names", "Brushes"),
                     }),
-                //new DemoItem("Diagram", new DiagramViewProcesses(){ DataContext = new DiagramViewModel() },
-                //    new []
-                //    {
-                //        DocumentationLink.WikiLink("Brush-Names", "Brushes"),
+                new DemoItem("Diagram", new DiagramProcesses(){ DataContext = new DiagramViewModel() },
+                    new []
+                    {
+                        DocumentationLink.WikiLink("Brush-Names", "Brushes"),
 
-                //        //DocumentationLink.ApiLink<PaletteHelper>()
-                //    }),
+                        //DocumentationLink.ApiLink<PaletteHelper>()
+                    }),
                 //new DemoItem("Buttons & Toggles", new Buttons { DataContext = new ButtonsViewModel() } ,
                 //    new []
                 //    {
