@@ -9,7 +9,7 @@
         xmlns:tb="http://www.hardcodet.net/taskbar"
         mc:Ignorable="d" WindowStyle="None" SizeToContent="WidthAndHeight"
         MaxWidth="500"
-        MaxHeight="400"
+        MaxHeight="400" WindowStartupLocation="CenterScreen"
         Title="Tracking Tool" ResizeMode="CanMinimize"
         TextElement.FontWeight="Regular" TextElement.FontSize="13"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
@@ -56,12 +56,12 @@
                     PopupActivation="DoubleClick"
                         TrayMouseDoubleClick="MyNotifyIcon_TrayMouseDoubleClick"
                         >
-            <!--<tb:TaskbarIcon.TrayToolTip>
-                <Border Background="White" BorderBrush="Orange" BorderThickness="2"
-                      CornerRadius="4" Opacity="0.8" Width="160" Height="40">
-                    <TextBlock Text="hello world" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                </Border>
-            </tb:TaskbarIcon.TrayToolTip>-->
+            <tb:TaskbarIcon.TrayToolTip>
+                <materialDesign:ColorZone Mode="PrimaryDark" MouseDown="Window_MouseDown" Padding="10 5 10 5" 
+                                          materialDesign:ShadowAssist.ShadowDepth="Depth2">
+                    <TextBlock TextBlock.FontWeight="Medium">Tracking Tool</TextBlock>
+                </materialDesign:ColorZone>
+            </tb:TaskbarIcon.TrayToolTip>
         </tb:TaskbarIcon>
         <!--TrayToolTip="{StaticResource TrayToolTip}"-->
 

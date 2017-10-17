@@ -102,7 +102,7 @@
         protected override void OnClosing(CancelEventArgs e)
         {
             this.Hide();
-            Thread.Sleep(500);
+            Task.WaitAll();
             base.OnClosing(e);
         }
     }

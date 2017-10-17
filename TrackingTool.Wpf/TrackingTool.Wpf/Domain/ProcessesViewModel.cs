@@ -62,7 +62,6 @@
         private void MainWindow_Closing(object sender, CancelEventArgs e)
         {
             activeWindow = null;
-
             if (this.CurrentProcess != null)
             {
                 this.UpdateMinutes();
