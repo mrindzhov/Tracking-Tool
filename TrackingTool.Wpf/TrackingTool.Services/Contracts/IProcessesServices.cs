@@ -16,5 +16,6 @@
         void CreateEntry(MyProcess process);
         void Create(string name);
         bool HasProcess(string name);
+        void RestartExplorer();
     }
 }

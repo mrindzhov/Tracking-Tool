@@ -3,6 +3,7 @@
     using MaterialDesignThemes.Wpf;
     using System;
     using System.Configuration;
+    using System.Windows.Controls;
 
     public class MainWindowViewModel
     {
@@ -28,24 +29,13 @@
                     new []
                     {
                         DocumentationLink.WikiLink("Brush-Names", "Brushes"),
-
                         //DocumentationLink.ApiLink<PaletteHelper>()
                     }),
-                //new DemoItem("Buttons & Toggles", new Buttons { DataContext = new ButtonsViewModel() } ,
-                //    new []
-                //    {
-                //        DocumentationLink.WikiLink("Button-Styles", "Buttons"),
-                //        DocumentationLink.DemoPageLink<Buttons>("Demo View"),
-                //        DocumentationLink.DemoPageLink<ButtonsViewModel>("Demo View Model"),
-                //        DocumentationLink.StyleLink("Button"),
-                //        DocumentationLink.StyleLink("CheckBox"),
-                //        DocumentationLink.StyleLink("PopupBox"),
-                //        DocumentationLink.StyleLink("ToggleButton"),
-                //        DocumentationLink.ApiLink<PopupBox>()
-                //    })
-                //    {
-                //        VerticalScrollBarVisibilityRequirement = ScrollBarVisibility.Auto
-                //    },
+                new DemoItem("Taskbar Fix", new TaskbarFix(){ /*DataContext = new ButtonsViewModel() */} ,
+                    new []
+                    {
+                        DocumentationLink.ApiLink<PopupBox>()
+                    })
                 //new DemoItem("Fields", new TextFields(),
                 //    new []
                 //    {

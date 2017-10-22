@@ -50,6 +50,7 @@
     <Compile Include="Contracts\IProcessesServices.cs" />
     <Compile Include="ProcessesServices.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utility\RestartExplorer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TrackingTool.Data\TrackingTool.Data.csproj">

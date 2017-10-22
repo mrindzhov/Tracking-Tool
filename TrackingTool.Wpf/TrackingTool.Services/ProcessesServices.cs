@@ -5,14 +5,20 @@
     using TrackingTool.Services.Contracts;
     using TrackingTool.Models;
     using TrackingTool.Data.Repositories;
+    using TrackingTool.Data;
 
     public class ProcessesServices : IProcessesServices
     {
         private IRepository<MyProcess> Processes;
+        public ProcessesServices()
+        {
+            this.Processes = new GenericRepository<MyProcess>(new TrackingToolContext());
+        }
         public ProcessesServices(IRepository<MyProcess> repository)
         {
             this.Processes = repository;
         }
+
 
         public void CreateEntry(MyProcess process)
         {
@@ -76,6 +82,11 @@
             pr.StartDate = date;
             this.Processes.SaveChanges();
             return pr;
+        }
+
+        public void RestartExplorer()
+        {
+            Utility.RestartExplorer.Run();
         }
     }
 }
