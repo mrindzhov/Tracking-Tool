@@ -5,7 +5,7 @@
     using System.Diagnostics;
     using System.Threading;
 
-    public class RestartExplorer
+    public static class RestartExplorer
     {
         [DllImport("user32.dll", SetLastError = true)]
         static extern bool PostMessage(IntPtr hWnd, [MarshalAs(UnmanagedType.U4)] uint Msg, IntPtr wParam, IntPtr lParam);
@@ -47,8 +47,6 @@
             process.StartInfo.FileName = explorer;
             process.StartInfo.UseShellExecute = true;
             process.Start();
-
-            //Console.ReadLine();
         }
     }
 }

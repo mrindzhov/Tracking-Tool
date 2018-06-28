@@ -9,7 +9,6 @@
 
     public static class Utilities
     {
-        //    public static class CurrentWindowGetter
         private delegate bool EnumWindowsProc(HWND hWnd, int lParam);
 
         delegate void WinEventDelegate(HWND hWinEventHook, uint eventType, HWND hwnd, int idObject, int idChild,
@@ -50,9 +49,6 @@
             }
             return null;
         }
-        /// <summary>Contains functionality to get all the open windows.</summary>
-        //public static class OpenWindowGetter
-        //{
         /// <summary>Returns a dictionary that contains the handle and title of all the open windows.</summary>
         /// <returns>A dictionary that contains the handle and title of all the open windows.</returns>
         public static IDictionary<HWND, string> GetOpenWindows()
