@@ -2,7 +2,7 @@
 {
     using System;
     using System.Linq;
-    using TrackingTool.Services.Contracts;
+    using TrackingTool.Contracts;
     using TrackingTool.Models;
     using TrackingTool.Data.Repositories;
     using TrackingTool.Data;
