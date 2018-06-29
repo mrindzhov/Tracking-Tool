@@ -1,4 +1,4 @@
-﻿namespace TrackingTool.Services.Utility
+﻿namespace TrackingTool.Services
 {
     using System;
     using System.Collections.Generic;
@@ -7,7 +7,7 @@
     using HWND = System.IntPtr;
 
 
-    public static class Utilities
+    public static class WindowService
     {
         private delegate bool EnumWindowsProc(HWND hWnd, int lParam);
 

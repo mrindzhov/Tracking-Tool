@@ -7,16 +7,16 @@
     using TrackingTool.Data;
     using TrackingTool.Models.Entities;
 
-    public class ProcessesServices : IProcessesServices
+    public class ProcessesService : IProcessesService
     {
         private readonly IRepository<DesktopProcess> processesRepository;
 
-        public ProcessesServices()
+        public ProcessesService()
         {
             this.processesRepository = new GenericRepository<DesktopProcess>(new TrackingToolContext());
         }
 
-        public ProcessesServices(IRepository<DesktopProcess> repository)
+        public ProcessesService(IRepository<DesktopProcess> repository)
         {
             this.processesRepository = repository;
         }
@@ -75,6 +75,6 @@
             return pr;
         }
 
-        public void RestartExplorer() => Utility.RestartExplorer.Run();
+        public void RestartExplorer() => RestartExplorerService.Run();
     }
 }

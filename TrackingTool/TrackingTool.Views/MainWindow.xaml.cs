@@ -13,6 +13,7 @@
     using TrackingTool.ViewModels;
     using TrackingTool.Enums;
     using TrackingTool.Models.Domain;
+    using TrackingTool.Views.Controls;
 
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -33,7 +34,7 @@
             };
         }
 
-        private static NavigationItem[] GenerateNavigationItems() => 
+        private static NavigationItem[] GenerateNavigationItems() =>
             new[]
                 {
                     new NavigationItem("Home", new Home(),

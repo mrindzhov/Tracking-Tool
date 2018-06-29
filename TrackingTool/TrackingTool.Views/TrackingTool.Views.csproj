@@ -62,13 +62,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AllProcesses.xaml.cs">
+    <Compile Include="Controls\AllProcesses.xaml.cs">
       <DependentUpon>AllProcesses.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DiagramProcesses.xaml.cs">
+    <Compile Include="Controls\DiagramProcesses.xaml.cs">
       <DependentUpon>DiagramProcesses.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Home.xaml.cs">
+    <Compile Include="Controls\Home.xaml.cs">
       <DependentUpon>Home.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.xaml.cs">
@@ -80,20 +80,20 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="TaskbarFix.xaml.cs">
+    <Compile Include="Controls\TaskbarFix.xaml.cs">
       <DependentUpon>TaskbarFix.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="AllProcesses.xaml">
+    <Page Include="Controls\AllProcesses.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="DiagramProcesses.xaml">
+    <Page Include="Controls\DiagramProcesses.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Home.xaml">
+    <Page Include="Controls\Home.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -101,7 +101,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="TaskbarFix.xaml">
+    <Page Include="Controls\TaskbarFix.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -143,5 +143,6 @@
   <ItemGroup>
     <Resource Include="Resources\Clock.ico" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

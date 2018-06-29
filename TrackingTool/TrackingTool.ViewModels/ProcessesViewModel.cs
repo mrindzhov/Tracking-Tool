@@ -7,36 +7,29 @@
     using System.Collections.ObjectModel;
     using System.ComponentModel;
     using System.Linq;
-    using System.Runtime.CompilerServices;
     using System.Windows;
     using TrackingTool.Data;
     using TrackingTool.Data.Repositories;
     using TrackingTool.Models.Entities;
     using TrackingTool.Models.Domain;
     using TrackingTool.Services;
-    using TrackingTool.Services.Utility;
 
     public class ProcessesViewModel : INotifyPropertyChanged
     {
-        /// <summary>
-        public DesktopProcess CurrentProcess { get; set; }
-        private ActiveWindow activeWindow = new ActiveWindow();
-        /// <summary>
+        private readonly ProcessesService processesServices;
 
-        private readonly ObservableCollection<ProcessViewModel> _items;
-        private readonly ProcessesServices processesServices;
-        public ObservableCollection<ProcessViewModel> Items => _items;
+        public DesktopProcess CurrentProcess { get; set; }
+        public ObservableCollection<ProcessViewModel> Items { get; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) =>
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        private ActiveWindow activeWindow = new ActiveWindow();
 
         public ProcessesViewModel()
         {
             Mapper.Initialize(cfg => { cfg.CreateMap<DesktopProcess, ProcessViewModel>(); });
-            this.processesServices = new ProcessesServices(new GenericRepository<DesktopProcess>(new TrackingToolContext()));
-            _items = GetData();
+            this.processesServices = new ProcessesService(new GenericRepository<DesktopProcess>(new TrackingToolContext()));
+            Items = GetData();
             AttachEvents();
         }
 
@@ -51,11 +44,17 @@
         {
             Application.Current.MainWindow.Closing += new CancelEventHandler(MainWindow_Closing);
 
+            AttachEventsToActiveWindow();
+
+            SystemEvents.PowerModeChanged += new PowerModeChangedEventHandler(PowerModeChangeHandler);
+        }
+
+        private void AttachEventsToActiveWindow()
+        {
             activeWindow.OnActiveWindowChanged += new ActiveWindow.ActiveWindowChangedHandler(AppChangeHandler);
             activeWindow.OnWindowRestored += new ActiveWindow.ActiveWindowChangedHandler(AppChangeHandler);
             activeWindow.OnWindowMinimized += new ActiveWindow.ActiveWindowChangedHandler(AppChangeHandler);
             activeWindow.Start();
-            SystemEvents.PowerModeChanged += new PowerModeChangedEventHandler(PowerModeChangeHandler);
         }
 
         private void MainWindow_Closing(object sender, CancelEventArgs e)
@@ -79,7 +78,7 @@
             if (CurrentProcess != null)
                 UpdateMinutes();
 
-            string window = Utilities.GetActiveWindowTitle();
+            string window = WindowService.GetActiveWindowTitle();
             if (window != null) // some bug occures sometimes
                 DefineApplication(window);
         }
@@ -109,7 +108,7 @@
                 this.CurrentProcess = this.processesServices.UpdateStartDate(this.CurrentProcess, DateTime.Now);
                 processViewModel = MapFrom(this.CurrentProcess);
 
-                Application.Current.Dispatcher.Invoke((Action)(() => this.Items.Add(processViewModel)));
+                Application.Current.Dispatcher.Invoke(() => this.Items.Add(processViewModel));
             }
         }
 

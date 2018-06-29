@@ -4,7 +4,7 @@
     using System.Linq;
     using TrackingTool.Models.Entities;
 
-    public interface IProcessesServices
+    public interface IProcessesService
     {
         IQueryable<DesktopProcess> GetAll();
         IQueryable<DesktopProcess> GetTop(int count);

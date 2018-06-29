@@ -1,11 +1,11 @@
-﻿namespace TrackingTool.Services.Utility
+﻿namespace TrackingTool.Services
 {
     using System;
     using System.Runtime.InteropServices;
     using System.Diagnostics;
     using System.Threading;
 
-    public static class RestartExplorer
+    public static class RestartExplorerService
     {
         [DllImport("user32.dll", SetLastError = true)]
         static extern bool PostMessage(IntPtr hWnd, [MarshalAs(UnmanagedType.U4)] uint Msg, IntPtr wParam, IntPtr lParam);

@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace TrackingTool.Views
+namespace TrackingTool.Views.Controls
 {
     /// <summary>
     /// Interaction logic for Home.xaml

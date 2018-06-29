@@ -1,4 +1,4 @@
-﻿namespace TrackingTool.Views
+﻿namespace TrackingTool.Views.Controls
 {
     using System.Windows;
     using System.Windows.Controls;
@@ -9,11 +9,11 @@
     /// </summary>
     public partial class TaskbarFix : UserControl
     {
-        private readonly ProcessesServices processesServices;
+        private readonly ProcessesService processesServices;
         public TaskbarFix()
         {
             InitializeComponent();
-            this.processesServices = new ProcessesServices();
+            this.processesServices = new ProcessesService();
         }
 
         private void RestartExplorer_Click(object sender, RoutedEventArgs e)

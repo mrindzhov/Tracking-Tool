@@ -17,11 +17,11 @@
         public string[] Labels { get; set; }
         public Func<double, string> Formatter { get; set; }
 
-        private readonly ProcessesServices processesServices;
+        private readonly ProcessesService processesServices;
 
         public DiagramViewModel()
         {
-            this.processesServices = new ProcessesServices(new GenericRepository<DesktopProcess>(new TrackingToolContext()));
+            this.processesServices = new ProcessesService(new GenericRepository<DesktopProcess>(new TrackingToolContext()));
             FillSeriesCollection();
         }
 
