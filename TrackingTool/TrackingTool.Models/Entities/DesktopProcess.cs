@@ -1,8 +1,8 @@
-﻿namespace TrackingTool.Models
+﻿namespace TrackingTool.Models.Entities
 {
     using System;
 
-    public class MyProcess
+    public class DesktopProcess
     {
         public int Id { get; set; }
 

@@ -1,8 +1,9 @@
-﻿namespace TrackingTool.Models
+﻿namespace TrackingTool.Models.Domain
 {
     using System;
     using System.Runtime.InteropServices;
     using System.Text;
+
     public class ActiveWindow
     {
         public delegate void ActiveWindowChangedHandler(object sender, String windowHeader, IntPtr hwnd);
@@ -38,7 +39,7 @@
             uint idProcess, uint idThread, uint dwFlags);
 
         IntPtr m_hhook = IntPtr.Zero;
-        private WinEventDelegate _winEventProc;
+        private readonly WinEventDelegate _winEventProc;
 
         public ActiveWindow()
         {

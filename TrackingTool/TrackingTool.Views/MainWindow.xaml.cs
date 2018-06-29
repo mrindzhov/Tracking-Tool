@@ -11,8 +11,8 @@
     using System.ComponentModel;
     using TrackingTool.Data;
     using TrackingTool.ViewModels;
-    using TrackingTool.Models;
     using TrackingTool.Enums;
+    using TrackingTool.Models.Domain;
 
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -33,50 +33,42 @@
             };
         }
 
-        private static NavigationItem[] GenerateNavigationItems()
-        {
-            return new[]
+        private static NavigationItem[] GenerateNavigationItems() => 
+            new[]
                 {
-                new NavigationItem("Home", new Home(),
-                    new []
-                    {
-                        new DocumentationLink(DocumentationLinkType.Wiki, "", "WIKI"),
-                        DocumentationLink.DemoPageLink<Home>()
-                    }
-                ),
-                new NavigationItem("All processes", new AllProcesses(){ DataContext = new ProcessesViewModel() },
-                    new []
-                    {
-                        DocumentationLink.WikiLink("Brush-Names", "Brushes"),
-                    }),
-                new NavigationItem("Diagram", new DiagramProcesses(){ DataContext = new DiagramViewModel() },
-                    new []
-                    {
-                        DocumentationLink.WikiLink("Brush-Names", "Brushes"),
-                        //DocumentationLink.ApiLink<PaletteHelper>()
-                    }),
-                new NavigationItem("Taskbar Fix", new TaskbarFix(){ /*DataContext = new ButtonsViewModel() */} ,
-                    new []
-                    {
-                        DocumentationLink.ApiLink<PopupBox>()
-                    })
-            };
-        }
+                    new NavigationItem("Home", new Home(),
+                        new []
+                        {
+                            new DocumentationLink(DocumentationLinkType.Wiki, "", "WIKI"),
+                            DocumentationLink.DemoPageLink<Home>()
+                        }
+                    ),
+                    new NavigationItem("All processes", new AllProcesses(){ DataContext = new ProcessesViewModel() },
+                        new []
+                        {
+                            DocumentationLink.WikiLink("Brush-Names", "Brushes"),
+                        }),
+                    new NavigationItem("Diagram", new DiagramProcesses(){ DataContext = new DiagramViewModel() },
+                        new []
+                        {
+                            DocumentationLink.WikiLink("Brush-Names", "Brushes"),
+                            //DocumentationLink.ApiLink<PaletteHelper>()
+                        }),
+                    new NavigationItem("Taskbar Fix", new TaskbarFix(){ /*DataContext = new ButtonsViewModel() */} ,
+                        new []
+                        {
+                            DocumentationLink.ApiLink<PopupBox>()
+                        })
+                };
 
-        private void CommandBinding_CanExecute_1(object sender, CanExecuteRoutedEventArgs e)
-        {
+        private void CommandBinding_CanExecute_1(object sender, CanExecuteRoutedEventArgs e) =>
             e.CanExecute = true;
-        }
 
-        private void CommandBinding_Executed_1(object sender, ExecutedRoutedEventArgs e)
-        {
+        private void CommandBinding_Executed_1(object sender, ExecutedRoutedEventArgs e) =>
             SystemCommands.CloseWindow(this);
-        }
 
-        private void CommandBinding_Executed_3(object sender, ExecutedRoutedEventArgs e)
-        {
+        private void CommandBinding_Executed_3(object sender, ExecutedRoutedEventArgs e) =>
             SystemCommands.MinimizeWindow(this);
-        }
 
         private void OpenGreetingPopUp()
         {

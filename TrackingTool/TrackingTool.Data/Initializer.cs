@@ -1,6 +1,6 @@
 ﻿namespace TrackingTool.Data
 {
-    public class Initializer
+    public static class Initializer
     {
         public static void InitDb()
         {

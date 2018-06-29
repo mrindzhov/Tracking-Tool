@@ -2,7 +2,7 @@
 {
     using MaterialDesignThemes.Wpf;
     using System;
-    using TrackingTool.Models;
+    using TrackingTool.Models.Domain;
 
     public class MainWindowViewModel
     {

@@ -1,4 +1,4 @@
-﻿namespace TrackingTool.Models
+﻿namespace TrackingTool.Models.Domain
 {
     using System;
     using System.Collections.Generic;

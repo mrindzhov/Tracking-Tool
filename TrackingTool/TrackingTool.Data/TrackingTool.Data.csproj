@@ -51,6 +51,10 @@
   <ItemGroup>
     <Compile Include="Initializer.cs" />
     <Compile Include="ITrackingToolContexnt.cs" />
+    <Compile Include="Migrations\201806292107206_RenamedProcessEntity.cs" />
+    <Compile Include="Migrations\201806292107206_RenamedProcessEntity.Designer.cs">
+      <DependentUpon>201806292107206_RenamedProcessEntity.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\GenericRepository.cs" />
@@ -66,6 +70,11 @@
       <Project>{D1EDE360-47B3-4BA1-8069-C682CBB4BFB5}</Project>
       <Name>TrackingTool.Models</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201806292107206_RenamedProcessEntity.resx">
+      <DependentUpon>201806292107206_RenamedProcessEntity.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

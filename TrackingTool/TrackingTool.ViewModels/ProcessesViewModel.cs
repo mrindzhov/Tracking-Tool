@@ -11,14 +11,15 @@
     using System.Windows;
     using TrackingTool.Data;
     using TrackingTool.Data.Repositories;
-    using TrackingTool.Models;
+    using TrackingTool.Models.Entities;
+    using TrackingTool.Models.Domain;
     using TrackingTool.Services;
     using TrackingTool.Services.Utility;
 
     public class ProcessesViewModel : INotifyPropertyChanged
     {
         /// <summary>
-        public MyProcess CurrentProcess { get; set; }
+        public DesktopProcess CurrentProcess { get; set; }
         private ActiveWindow activeWindow = new ActiveWindow();
         /// <summary>
 
@@ -28,23 +29,21 @@
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
 
         public ProcessesViewModel()
         {
-            Mapper.Initialize(cfg => { cfg.CreateMap<MyProcess, ProcessViewModel>(); });
-            this.processesServices = new ProcessesServices(new GenericRepository<MyProcess>(new TrackingToolContext()));
+            Mapper.Initialize(cfg => { cfg.CreateMap<DesktopProcess, ProcessViewModel>(); });
+            this.processesServices = new ProcessesServices(new GenericRepository<DesktopProcess>(new TrackingToolContext()));
             _items = GetData();
             AttachEvents();
         }
 
         private ObservableCollection<ProcessViewModel> GetData()
         {
-            List<MyProcess> list = this.processesServices.GetAll().ToList();
-            List<ProcessViewModel> processes = Mapper.Map<List<MyProcess>, List<ProcessViewModel>>(list);
+            List<DesktopProcess> list = this.processesServices.GetAll().ToList();
+            List<ProcessViewModel> processes = Mapper.Map<List<DesktopProcess>, List<ProcessViewModel>>(list);
             return new ObservableCollection<ProcessViewModel>(processes);
         }
 
@@ -62,43 +61,34 @@
         private void MainWindow_Closing(object sender, CancelEventArgs e)
         {
             activeWindow = null;
-            if (this.CurrentProcess != null)
-            {
-                this.UpdateMinutes();
-            }
+            if (CurrentProcess != null)
+                UpdateMinutes();
         }
 
         private void PowerModeChangeHandler(object sender, PowerModeChangedEventArgs e)
         {
             if (e.Mode == PowerModes.Suspend)
-            {
                 UpdateCurrentProcess();
-            }
         }
 
-        private void AppChangeHandler(object sender, string windowHeader, IntPtr hwnd)
-        {
+        private void AppChangeHandler(object sender, string windowHeader, IntPtr hwnd) =>
             UpdateCurrentProcess();
-        }
 
         private void UpdateCurrentProcess()
         {
-            if (this.CurrentProcess != null)
-            {
+            if (CurrentProcess != null)
                 UpdateMinutes();
-            }
+
             string window = Utilities.GetActiveWindowTitle();
             if (window != null) // some bug occures sometimes
-            {
                 DefineApplication(window);
-            }
         }
 
         private void DefineApplication(string name)
         {
             if (!this.processesServices.HasProcess(name))
             {
-                MyProcess process = new MyProcess
+                DesktopProcess process = new DesktopProcess
                 {
                     Name = name,
                     StartDate = DateTime.Now,
@@ -123,10 +113,8 @@
             }
         }
 
-        private ProcessViewModel MapFrom(MyProcess process)
-        {
-            return Mapper.Map<MyProcess, ProcessViewModel>(process);
-        }
+        private ProcessViewModel MapFrom(DesktopProcess process) =>
+            Mapper.Map<DesktopProcess, ProcessViewModel>(process);
 
         private void UpdateMinutes()
         {

@@ -43,12 +43,11 @@
             StringBuilder Buff = new StringBuilder(nChars);
             IntPtr handle = GetForegroundWindow();
 
-            if (GetWindowText(handle, Buff, nChars) > 0)
-            {
-                return Buff.ToString();
-            }
-            return null;
+            return GetWindowText(handle, Buff, nChars) > 0
+                ? Buff.ToString()
+                : null;
         }
+
         /// <summary>Returns a dictionary that contains the handle and title of all the open windows.</summary>
         /// <returns>A dictionary that contains the handle and title of all the open windows.</returns>
         public static IDictionary<HWND, string> GetOpenWindows()
@@ -56,23 +55,27 @@
             HWND shellWindow = GetShellWindow();
             Dictionary<HWND, string> windows = new Dictionary<HWND, string>();
 
-            EnumWindows(delegate (HWND hWnd, int lParam)
-            {
-                if (hWnd == shellWindow) return true;
-                if (!IsWindowVisible(hWnd)) return true;
-
-                int length = GetWindowTextLength(hWnd);
-                if (length == 0) return true;
-
-                StringBuilder builder = new StringBuilder(length);
-                GetWindowText(hWnd, builder, length + 1);
-
-                windows[hWnd] = builder.ToString();
-                return true;
-
-            }, 0);
+            EnumWindowsProc enumFunc = GenerateEnumFunction(shellWindow, windows);
+            EnumWindows(enumFunc, 0);
 
             return windows;
         }
+
+        private static EnumWindowsProc GenerateEnumFunction(HWND shellWindow, Dictionary<HWND, string> windows) =>
+            delegate (HWND hWnd, int lParam)
+                {
+                    if (hWnd == shellWindow) return true;
+                    if (!IsWindowVisible(hWnd)) return true;
+
+                    int length = GetWindowTextLength(hWnd);
+                    if (length == 0) return true;
+
+                    StringBuilder builder = new StringBuilder(length);
+                    GetWindowText(hWnd, builder, length + 1);
+
+                    windows[hWnd] = builder.ToString();
+                    return true;
+
+                };
     }
 }

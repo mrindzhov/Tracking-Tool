@@ -43,11 +43,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActiveWindow.cs" />
-    <Compile Include="AnotherCommandImplementation.cs" />
-    <Compile Include="DemoItem.cs" />
-    <Compile Include="DocumentationLink.cs" />
-    <Compile Include="MyProcess.cs" />
+    <Compile Include="Domain\ActiveWindow.cs" />
+    <Compile Include="Domain\AnotherCommandImplementation.cs" />
+    <Compile Include="Domain\DocumentationLink.cs" />
+    <Compile Include="Domain\NavigationItem.cs" />
+    <Compile Include="Entities\DesktopProcess.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -60,5 +60,6 @@
       <Name>TrackingTool.Extentions</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
